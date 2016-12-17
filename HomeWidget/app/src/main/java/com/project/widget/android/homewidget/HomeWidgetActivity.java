@@ -14,12 +14,13 @@ import android.widget.EditText;
  * The configuration screen for the {@link HomeWidget HomeWidget} AppWidget.
  */
 public class HomeWidgetActivity extends Activity {
-    DictionaryDatabase myDb  = new DictionaryDatabase(this);
+    DictionaryDatabase myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_widget_activity);
+        myDb  = new DictionaryDatabase(this);
         boolean inserted = myDb.insertData("alma","apple","mere");
         if (inserted==true){
             Log.d("****","berakva");
