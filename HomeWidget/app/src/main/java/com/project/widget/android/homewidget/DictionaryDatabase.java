@@ -19,19 +19,21 @@ public class DictionaryDatabase extends SQLiteOpenHelper {
     private static final String COL_2 = "magyar";
     private static final String COL_3 = "angol";
     private static final String COL_4 = "roman";
-    private static final String TABLE_CREATE = "create table dictionary (id integer primary key not null auto_increment, " +
-                                                "magyar text, angol text, roman text);";
-    SQLiteDatabase db;
+    private static final String TABLE_CREATE = "create table "+TABLE_NAME+" (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                                COL_2 +" TEXT, " +
+                                                COL_3 + " TEXT, " +
+                                                COL_4 +" TEXT);";
+
 
 
     public DictionaryDatabase(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        SQLiteDatabase db = this.getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TABLE_CREATE);
-        this.db=db;
 
     }
 
