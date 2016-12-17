@@ -2,10 +2,14 @@ package com.project.widget.android.homewidget;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Zold Attila on 11/12/2016.
@@ -57,4 +61,28 @@ public class DictionaryDatabase extends SQLiteOpenHelper {
             return true;
         }
     }
+
+    public ArrayList<HashMap<String, String>> getAllWords(){
+
+        ArrayList<HashMap<String, String>> words;
+        words = new ArrayList<HashMap<String, String>>();
+        String selectQuery = "SELECT  * FROM dictionary";
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                //Id, Company,Name,Price
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("Id", cursor.getString(0));
+                map.put("Magyar", cursor.getString(1));
+                map.put("Angol", cursor.getString(2));
+                map.put("Roman", cursor.getString(3));
+                words.add(map);
+            } while (cursor.moveToNext());
+
+        }
+        return words;
+
+    }
+
 }
