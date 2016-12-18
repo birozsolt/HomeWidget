@@ -6,13 +6,9 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.RemoteViews;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 
 /**
  * Implementation of App Widget functionality.
@@ -28,7 +24,7 @@ public class HomeWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         final int N = appWidgetIds.length;
 
-        Log.i("ExampleWidget",  "Updating widgets " + Arrays.asList(appWidgetIds));
+        Log.i("ExampleWidget", "Updating widgets " + Arrays.asList(appWidgetIds));
 
         // Perform this loop procedure for each App Widget that belongs to this
         // provider
