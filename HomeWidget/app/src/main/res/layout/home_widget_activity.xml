@@ -19,14 +19,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:queryHint="@string/searchHint"
         android:layout_below="@+id/languages"
-        />
+        android:queryHint="@string/searchHint" />
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/searchView"/>
+        android:layout_below="@+id/searchView" />
 </RelativeLayout>
 
 

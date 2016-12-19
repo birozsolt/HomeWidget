@@ -6,9 +6,8 @@ import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.RemoteViews;
-
-import java.util.Random;
 
 /**
  * Created by Zsolt on 2016. 12. 19..
@@ -24,10 +23,10 @@ public class HomeWidgetService extends Service {
             RemoteViews remoteViews = new RemoteViews(this.getApplicationContext().getPackageName(), R.layout.home_widget);
             // Set the text
             remoteViews.setTextViewText(R.id.textView, "Lats word: " + String.valueOf(intent.getStringExtra("last")));
-
+            Log.e("SERVICE", intent.getStringExtra("last"));
             // Create an Intent to launch HomeWidgetActivity
             Intent activityIntent = new Intent(this.getApplicationContext(), HomeWidgetActivity.class);
-            activityIntent.putExtra("widgetId",widgetId);
+            activityIntent.putExtra("widgetId", widgetId);
             PendingIntent pendingIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, activityIntent, 0);
             remoteViews.setOnClickPendingIntent(R.id.search, pendingIntent);
 

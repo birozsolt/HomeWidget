@@ -1,13 +1,9 @@
 package com.project.widget.android.homewidget;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.appwidget.AppWidgetManager;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,7 +24,6 @@ import java.util.ArrayList;
  * The configuration screen for the {@link HomeWidgetProvider HomeWidgetProvider} AppWidget.
  */
 public class HomeWidgetActivity extends Activity {
-    private DictionaryDatabase myDb;
     SearchView searchView;
     ListView listView;
     ArrayList<DictionaryItem> words;
@@ -35,26 +31,25 @@ public class HomeWidgetActivity extends Activity {
     Spinner spinner;
     String language;
     Integer widgetID;
+    private DictionaryDatabase myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        widgetID = getIntent().getIntExtra("widgetId",0);
+        widgetID = getIntent().getIntExtra("widgetId", 0);
         setContentView(R.layout.home_widget_activity);
         myDb = new DictionaryDatabase(this);
 
         File database = getApplicationContext().getDatabasePath(DictionaryDatabase.DATABASE_NAME);
-        if (!database.exists()){
+        if (!database.exists()) {
             myDb.getReadableDatabase();
             if (copyDatabase(this)) {
-                Log.d("***Copy database: ","Succes");
-            }
-            else{
-                Log.d("***Copy database: ","Error");
+                Log.d("***Copy database: ", "Succes");
+            } else {
+                Log.d("***Copy database: ", "Error");
                 return;
             }
         }
-
 
 
         listView = (ListView) findViewById(R.id.listView);
@@ -90,8 +85,6 @@ public class HomeWidgetActivity extends Activity {
         listView.setTextFilterEnabled(true);
 
 
-
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -105,10 +98,10 @@ public class HomeWidgetActivity extends Activity {
 
                 } else {
                     listView.setFilterText(newText);
-                    Intent textToShowIntent = new Intent();
-                    textToShowIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                    textToShowIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetID);
-                    textToShowIntent.putExtra("text",newText);
+                    Intent textToShowIntent = new Intent(getApplicationContext(), HomeWidgetProvider.class);
+                    textToShowIntent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+                    textToShowIntent.putExtra("text", " " + newText);
+                    Log.e("INTENT BROADCAST", newText);
                     sendBroadcast(textToShowIntent);
                 }
                 return true;
@@ -116,24 +109,24 @@ public class HomeWidgetActivity extends Activity {
         });
     }
 
-    private boolean copyDatabase(Context context){
-        try{
+    private boolean copyDatabase(Context context) {
+        try {
             InputStream inputStream = context.getAssets().open(DictionaryDatabase.DATABASE_NAME);
             String outFileName = DictionaryDatabase.DATABASE_LOCATION + DictionaryDatabase.DATABASE_NAME;
-            Log.d("***location",outFileName);
+            Log.d("***location", outFileName);
             OutputStream outputStream = new FileOutputStream(outFileName);
             byte[] buff = new byte[1024];
             int length = 0;
-            while((length = inputStream.read(buff)) > 0){
-                outputStream.write(buff, 0 , length);
+            while ((length = inputStream.read(buff)) > 0) {
+                outputStream.write(buff, 0, length);
             }
             outputStream.flush();
             outputStream.close();
-            Log.w("***Database: ","copied!");
+            Log.w("***Database: ", "copied!");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
-            return  false;
+            return false;
         }
     }
 }

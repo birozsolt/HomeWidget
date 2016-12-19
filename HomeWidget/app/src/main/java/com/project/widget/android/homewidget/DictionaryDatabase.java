@@ -26,13 +26,13 @@ public class DictionaryDatabase extends SQLiteOpenHelper {
             COL_3 + " TEXT, " +
             COL_4 + " TEXT, " +
             "UNIQUE(magyar, angol, roman) ON CONFLICT REPLACE);";
-    private  Context context;
+    private Context context;
     private SQLiteDatabase db;
 
 
     public DictionaryDatabase(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        this.context= context;
+        this.context = context;
 
     }
 
@@ -57,13 +57,12 @@ public class DictionaryDatabase extends SQLiteOpenHelper {
     }
 
 
-
-    public void openDatabase(){
+    public void openDatabase() {
         String dbPath = context.getDatabasePath(DATABASE_NAME).getPath();
-        if (db!=null && db.isOpen()){
+        if (db != null && db.isOpen()) {
             return;
         }
-        db = SQLiteDatabase.openDatabase(dbPath,null,SQLiteDatabase.OPEN_READWRITE);
+        db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
     }
 
     public void closeDatabase() {

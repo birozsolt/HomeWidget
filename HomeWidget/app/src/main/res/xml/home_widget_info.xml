@@ -4,4 +4,4 @@
     android:minHeight="72dp"
     android:minWidth="144dp"
     android:previewImage="@drawable/logo"
-    android:updatePeriodMillis="1000"/>
+    android:updatePeriodMillis="1000" />
