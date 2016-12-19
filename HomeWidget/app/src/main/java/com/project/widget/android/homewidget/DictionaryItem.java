@@ -5,23 +5,23 @@ package com.project.widget.android.homewidget;
  */
 
 class DictionaryItem {
-    String magyar, angol, roman;
+    String hungarian, english, romanian;
 
-    DictionaryItem(String magyar, String angol, String roman) {
-        this.magyar = magyar;
-        this.angol = angol;
-        this.roman = roman;
+    DictionaryItem(String hungarian, String english, String romanian) {
+        this.hungarian = hungarian;
+        this.english = english;
+        this.romanian = romanian;
     }
 
-    public String getMagyar() {
-        return magyar;
+    public String getHungarian() {
+        return hungarian;
     }
 
-    public String getAngol() {
-        return angol;
+    public String getEnglish() {
+        return english;
     }
 
-    public String getRoman() {
-        return roman;
+    public String getRomanian() {
+        return romanian;
     }
 }

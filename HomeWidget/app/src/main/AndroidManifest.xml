@@ -8,19 +8,26 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeWidgetActivity" >
+        <activity android:name=".HomeWidgetActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".HomeWidget" android:label="HomeWidget">
+        <service android:name=".HomeWidgetService"/>
+        <receiver
+            android:name=".HomeWidgetProvider"
+            android:label="HomeWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider" android:resource="@xml/home_widget_info" />
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/home_widget_info" />
         </receiver>
+
     </application>
 
 </manifest>

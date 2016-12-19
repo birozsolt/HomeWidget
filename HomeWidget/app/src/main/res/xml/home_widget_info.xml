@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-android:minWidth="294dp"
-android:minHeight="72dp"
-android:updatePeriodMillis="1000"
-android:initialLayout="@layout/home_widget">
-</appwidget-provider>
+    android:initialLayout="@layout/home_widget"
+    android:minHeight="72dp"
+    android:minWidth="144dp"
+    android:previewImage="@drawable/logo"
+    android:updatePeriodMillis="1000"/>

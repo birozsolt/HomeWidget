@@ -1,10 +1,11 @@
 package com.project.widget.android.homewidget;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,7 +15,7 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 
 /**
- * The configuration screen for the {@link HomeWidget HomeWidget} AppWidget.
+ * The configuration screen for the {@link HomeWidgetProvider HomeWidgetProvider} AppWidget.
  */
 public class HomeWidgetActivity extends Activity {
     DictionaryDatabase myDb;
@@ -22,12 +23,14 @@ public class HomeWidgetActivity extends Activity {
     ListView listView;
     ArrayList<DictionaryItem> words;
     ListViewAdapter adapter;
-    Spinner sp;
+    Spinner spinner;
     String language;
+    Integer widgetID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        widgetID = getIntent().getIntExtra("widgetId",0);
         setContentView(R.layout.home_widget_activity);
         myDb = new DictionaryDatabase(this);
         myDb.insertData("alma", "apple", "mere");
@@ -38,20 +41,20 @@ public class HomeWidgetActivity extends Activity {
 
         listView = (ListView) findViewById(R.id.listView);
         searchView = (SearchView) findViewById(R.id.searchView);
-        sp = (Spinner) findViewById(R.id.languages);
+        spinner = (Spinner) findViewById(R.id.languages);
 
 
         final ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.languages_array, android.R.layout.simple_spinner_item);
 
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp.setAdapter(spinnerAdapter);
-        language = sp.getSelectedItem().toString();
+        spinner.setAdapter(spinnerAdapter);
+        language = spinner.getSelectedItem().toString();
 
-        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                adapter.setLanguage(sp.getSelectedItem().toString());
+                adapter.setLanguage(spinner.getSelectedItem().toString());
                 listView.setAdapter(adapter);
             }
 
@@ -83,6 +86,11 @@ public class HomeWidgetActivity extends Activity {
 
                 } else {
                     listView.setFilterText(newText);
+                    Intent textToShowIntent = new Intent();
+                    textToShowIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                    textToShowIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetID);
+                    textToShowIntent.putExtra("text",newText);
+                    sendBroadcast(textToShowIntent);
                 }
                 return true;
             }
