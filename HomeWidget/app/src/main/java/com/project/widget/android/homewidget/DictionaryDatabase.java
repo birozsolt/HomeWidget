@@ -20,10 +20,11 @@ public class DictionaryDatabase extends SQLiteOpenHelper {
     private static final String COL_2 = "magyar";
     private static final String COL_3 = "angol";
     private static final String COL_4 = "roman";
-    private static final String TABLE_CREATE = "create table " + TABLE_NAME + " (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+    private static final String TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COL_2 + " TEXT, " +
             COL_3 + " TEXT, " +
-            COL_4 + " TEXT);";
+            COL_4 + " TEXT, " +
+            "UNIQUE(magyar, angol, roman) ON CONFLICT REPLACE);";
 
 
     public DictionaryDatabase(Context context) {
