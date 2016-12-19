@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Created by Zsolt on 2016. 12. 18..
@@ -24,8 +25,6 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
     private Context context;
     private ArrayList<DictionaryItem> originalData;
     private ArrayList<DictionaryItem> filteredData;
-    private Spinner spinner;
-    Activity activity;
     ImageView flag;
     ImageView flag2;
     DictionaryHolder holder;
