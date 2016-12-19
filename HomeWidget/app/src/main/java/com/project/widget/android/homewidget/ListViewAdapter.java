@@ -3,11 +3,9 @@ package com.project.widget.android.homewidget;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -67,15 +65,13 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
                 holder.roman = (TextView) convertView.findViewById(R.id.word3);
                 flag.setImageResource(R.drawable.eng);
                 flag2.setImageResource(R.drawable.rom);
-            }
-            else if (language.equals("English")){
+            } else if (language.equals("English")) {
                 holder.magyar = (TextView) convertView.findViewById(R.id.word2);
                 holder.angol = (TextView) convertView.findViewById(R.id.word1);
                 holder.roman = (TextView) convertView.findViewById(R.id.word3);
                 flag.setImageResource(R.drawable.hun);
                 flag2.setImageResource(R.drawable.rom);
-            }
-            else if (language.equals("Romanian")){
+            } else if (language.equals("Romanian")) {
                 holder.magyar = (TextView) convertView.findViewById(R.id.word2);
                 holder.angol = (TextView) convertView.findViewById(R.id.word3);
                 holder.roman = (TextView) convertView.findViewById(R.id.word1);
@@ -113,7 +109,7 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
                 if (filterString != null) {
                     if (filteredData != null && filteredData.size() > 0) {
                         for (final DictionaryItem item : filteredData) {
-                            switch (language){
+                            switch (language) {
                                 case "Hungarian":
                                     if (item.getMagyar().toLowerCase().contains(filterString)) {
                                         filteredList.add(item);
@@ -129,7 +125,8 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
                                         filteredList.add(item);
                                     }
                                     break;
-                                default: break;
+                                default:
+                                    break;
                             }
 
                         }
