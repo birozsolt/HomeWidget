@@ -1,24 +1,33 @@
 package com.project.widget.android.homewidget;
 
 import android.app.Activity;
-import android.appwidget.AppWidgetManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.appwidget.AppWidgetManager;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 /**
  * The configuration screen for the {@link HomeWidgetProvider HomeWidgetProvider} AppWidget.
  */
 public class HomeWidgetActivity extends Activity {
-    DictionaryDatabase myDb;
+    private DictionaryDatabase myDb;
     SearchView searchView;
     ListView listView;
     ArrayList<DictionaryItem> words;
@@ -33,11 +42,20 @@ public class HomeWidgetActivity extends Activity {
         widgetID = getIntent().getIntExtra("widgetId",0);
         setContentView(R.layout.home_widget_activity);
         myDb = new DictionaryDatabase(this);
-        myDb.insertData("alma", "apple", "mere");
-        myDb.insertData("körte", "pear", "pere");
-        myDb.insertData("játék", "game", "joc");
-        myDb.insertData("barna", "brown", "maro");
-        myDb.insertData("akarat", "will", "vointa");
+
+        File database = getApplicationContext().getDatabasePath(DictionaryDatabase.DATABASE_NAME);
+        if (!database.exists()){
+            myDb.getReadableDatabase();
+            if (copyDatabase(this)) {
+                Log.d("***Copy database: ","Succes");
+            }
+            else{
+                Log.d("***Copy database: ","Error");
+                return;
+            }
+        }
+
+
 
         listView = (ListView) findViewById(R.id.listView);
         searchView = (SearchView) findViewById(R.id.searchView);
@@ -56,6 +74,7 @@ public class HomeWidgetActivity extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 adapter.setLanguage(spinner.getSelectedItem().toString());
                 listView.setAdapter(adapter);
+
             }
 
             @Override
@@ -95,6 +114,27 @@ public class HomeWidgetActivity extends Activity {
                 return true;
             }
         });
+    }
+
+    private boolean copyDatabase(Context context){
+        try{
+            InputStream inputStream = context.getAssets().open(DictionaryDatabase.DATABASE_NAME);
+            String outFileName = DictionaryDatabase.DATABASE_LOCATION + DictionaryDatabase.DATABASE_NAME;
+            Log.d("***location",outFileName);
+            OutputStream outputStream = new FileOutputStream(outFileName);
+            byte[] buff = new byte[1024];
+            int length = 0;
+            while((length = inputStream.read(buff)) > 0){
+                outputStream.write(buff, 0 , length);
+            }
+            outputStream.flush();
+            outputStream.close();
+            Log.w("***Database: ","copied!");
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  false;
+        }
     }
 }
 
